@@ -30,8 +30,8 @@ gen/
 idea-gitignore.jar
 resources/templates.list
 resources/gitignore/*
-build/
-build.properties
+buildings/
+buildings.properties
 junit*.properties
 IgnoreLexer.java~
 .gradle
