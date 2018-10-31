@@ -36,7 +36,3 @@ build.properties
 junit*.properties
 IgnoreLexer.java~
 .gradle
-
-/verification
-
-# wtf?
