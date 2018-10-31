@@ -25,6 +25,7 @@ hs_err_pid*
 # IntelliJ Idea Files
 .idea/
 *.iml
+*.yml
 out/
 gen/
 idea-gitignore.jar
@@ -37,3 +38,5 @@ IgnoreLexer.java~
 .gradle
 
 /verification
+
+# wtf?
