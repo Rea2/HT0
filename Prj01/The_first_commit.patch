@@ -1,0 +1,97 @@
+Index: .idea/modules.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/modules.xml	(date 1540818747000)
++++ .idea/modules.xml	(revision )
+@@ -2,7 +2,7 @@
+ <project version="4">
+   <component name="ProjectModuleManager">
+     <modules>
+-      <module fileurl="file://$PROJECT_DIR$/HT0.iml" filepath="$PROJECT_DIR$/HT0.iml" />
++      <module fileurl="file://$PROJECT_DIR$/Prj01.iml" filepath="$PROJECT_DIR$/Prj01.iml" />
+     </modules>
+   </component>
+ </project>
+\ No newline at end of file
+Index: src/Prj01/Folders.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/Prj01/Folders.java	(revision )
++++ src/Prj01/Folders.java	(revision )
+@@ -0,0 +1,36 @@
++package Prj01;
++
++import java.io.File;
++
++/**
++ * Created by Raik Yauheni on 30.10.2018.
++ */
++public class Folders {
++    public static int countMp3Files;
++    public static int countAllFiles;
++
++    public static void listFilesForFolder(final File folder) {
++        for (final File fileEntry : folder.listFiles()) {
++            if (fileEntry.isDirectory()) {
++                listFilesForFolder(fileEntry);
++            }
++            else {
++                if (fileEntry.getName().substring(fileEntry.getName().length()-4).equalsIgnoreCase(".mp3")) {
++                    System.out.println(fileEntry.getName());
++                    countMp3Files++;
++                }
++                countAllFiles++;
++
++            }
++        }
++    }
++
++    public static void main(String[] args) {
++        final File folder = new File("f:\\MusicDirectory");
++        listFilesForFolder(folder);
++        System.out.println("Nubmer of all files / mp3 files: " + countAllFiles + "//" +countMp3Files);
++
++    }
++
++
++}
+Index: src/task.txt
+===================================================================
+--- src/task.txt	(date 1540818747000)
++++ src/Prj01/task.txt	(revision )
+@@ -1,0 +1,0 @@
+Index: src/Prj01/exceptions/IlluminateTooLittleException.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/Prj01/exceptions/IlluminateTooLittleException.java	(date 1540818747000)
++++ src/Prj01/exceptions/IlluminateTooLittleException.java	(revision )
+@@ -1,7 +1,5 @@
+ package Prj01.exceptions;
+ 
+-import Prj01.room.Room;
+-
+ /**
+  * Created by Raik Yauheni on 27.10.2018.
+  */
+Index: src/Prj01/building/Building.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/Prj01/building/Building.java	(date 1540818747000)
++++ src/Prj01/building/Building.java	(revision )
+@@ -2,7 +2,7 @@
+ 
+ import Prj01.exceptions.IllegalBuildingException;
+ import Prj01.exceptions.IllegalRoomException;
+-import Prj01.room.*;
++import Prj01.room.Room;
+ import java.util.*;
+ 
+ /**
