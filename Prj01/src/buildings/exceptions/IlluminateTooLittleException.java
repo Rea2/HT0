@@ -8,7 +8,7 @@ public class IlluminateTooLittleException extends IllegalRoomException {
     public IlluminateTooLittleException() {
     }
 
-    public IlluminateTooLittleException(String s, IllegalRoomException e) {
-        super(s, e);
+    public IlluminateTooLittleException(String s) {
+        super(s);
     }
 }

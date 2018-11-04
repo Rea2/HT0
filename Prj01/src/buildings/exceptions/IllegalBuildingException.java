@@ -6,8 +6,8 @@ package buildings.exceptions;
 public class IllegalBuildingException extends RuntimeException {
     public IllegalBuildingException() {
     }
-    public IllegalBuildingException(String s, IllegalRoomException e) {
-        super(s,e);
+    public IllegalBuildingException(String s) {
+        super(s);
     }
 }
 

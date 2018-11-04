@@ -7,11 +7,11 @@ import buildings.building.Building;
 import buildings.exceptions.IlluminateTooLittleException;
 import buildings.exceptions.IlluminateTooMuchException;
 import buildings.exceptions.SpaceUsageTooMuchException;
-import buildings.furniture.Armchair;
-import buildings.furniture.Bed;
-import buildings.furniture.BedTypes;
-import buildings.furniture.Sofa;
-import buildings.lamp.Lamp;
+import buildings.rooms_items.furniture.Armchair;
+import buildings.rooms_items.furniture.Bed;
+import buildings.rooms_items.furniture.BedTypes;
+import buildings.rooms_items.furniture.Sofa;
+import buildings.rooms_items.lamp.Lamp;
 import buildings.room.Room;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +20,13 @@ public class TestClass {
     static List<Room> rooms = new ArrayList<>();
 
     public static void main(String[] args) {
+
+
         try {
             Building building = new Building("Building 1");
 
 
-            rooms.add(new Room("Комната1", 100, 1));
+            rooms.add(new Room("Комната1", 1, -5));
             rooms.add(new Room("Комната2", 200, 2));
             rooms.add(new Room("Комната3", 32, 3));
             rooms.add(new Room("Комната4", -200, 5));

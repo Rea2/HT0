@@ -9,15 +9,15 @@ import java.nio.file.Path;
 /**
  * Created by Raik Yauheni on 02.11.2018.
  */
-public class Mp3FileInfo {
+public class Mp3Info {
     private String title;
     private String artist;
     private String album;
     private Path path;
     private long duration;
-    private static final String EMPTY_FIELD = "Unknown";
+    private static final String EMPTY_FIELD = "N/A";
 
-    public Mp3FileInfo() {
+    public Mp3Info() {
         title = EMPTY_FIELD;
         artist = EMPTY_FIELD;
         album = EMPTY_FIELD;
@@ -25,7 +25,7 @@ public class Mp3FileInfo {
         artist = EMPTY_FIELD;
     }
 
-    public Mp3FileInfo(String title, String artist, String album, Path path, long duration) {
+    public Mp3Info(String title, String artist, String album, Path path, long duration) {
         this.title = title;
         this.artist = artist;
         this.album = album;

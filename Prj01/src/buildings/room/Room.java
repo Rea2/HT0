@@ -1,14 +1,11 @@
 package buildings.room;
 
 import buildings.building.Constants;
-import buildings.building.PlaceableRoomItem;
-import buildings.exceptions.IlluminateTooMuchException;
-import buildings.exceptions.SpaceUsageTooMuchException;
-import buildings.lamp.Lamp;
-import buildings.building.ChangeableArea;
-import buildings.exceptions.IllegalRoomException;
-import buildings.exceptions.IlluminateTooLittleException;
-import buildings.furniture.Furniture;
+import buildings.exceptions.*;
+import buildings.interfaces.RoomsItems;
+import buildings.rooms_items.lamp.Lamp;
+import buildings.interfaces.ChangeableUsageSpace;
+import buildings.rooms_items.furniture.Furniture;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,17 +20,21 @@ public class Room  {
     private int id;
     private double area;
     private boolean validated;
-    private int nubmerOfWindows;
+    private int numberOfWindows;
     private String title;
-    private List<Furniture> listOfFurniture = new ArrayList<>();
-    private List<Lamp> listOfLamps = new ArrayList<>();
+    private final List<Furniture> listOfFurniture = new ArrayList<>();
+    private final List<Lamp> listOfLamps = new ArrayList<>();
 
-    /** Constructors */
-    public Room(String title, double area, int numberOfWindows) {
+
+    /** Constructors*/
+    public Room(String title, double area, int numberOfWindows) throws IllegalTitleRoomException {
+        if (title.length() < 2) throw new IllegalTitleRoomException("Rooms did not created. Rooms title has to consist at least two characters ");
         id = ++countRooms;
-        if (area > 1) this.area = Math.abs(area);
-        else area = Constants.MIN_ROOM_AREA;
-        this.nubmerOfWindows = numberOfWindows;
+        if (area > Constants.MIN_ROOM_AREA || area <-Constants.MIN_ROOM_AREA ) {
+            this.area = Math.abs(area);
+        }
+        else this.area = Constants.MIN_ROOM_AREA;
+        this.numberOfWindows = Math.abs(numberOfWindows);
         this.title = title;
     }
 
@@ -54,37 +55,29 @@ public class Room  {
         return validated;
     }
 
-    public int getNubmerOfWindows() {
-        return nubmerOfWindows;
+    public int getNumberOfWindows() {
+        return numberOfWindows;
     }
 
-    public void setNubmerOfWindows(int nubmerOfWindows) {
-        this.nubmerOfWindows = nubmerOfWindows;
+    public void setNumberOfWindows(int numberOfWindows) {
+        this.numberOfWindows = numberOfWindows;
     }
 
     public List<Furniture> getListOfFurniture() {
         return listOfFurniture;
     }
 
-    public void setListOfFurniture(List<Furniture> listOfFurniture) {
-        this.listOfFurniture = listOfFurniture;
-    }
-
     public List<Lamp> getListOfLamps() {
         return listOfLamps;
     }
 
-    public void setListOfLamps(List<Lamp> listOfLamps) {
-        this.listOfLamps = listOfLamps;
-    }
-
-    /** Methods */
+       /** Methods */
     public double getIlluminance() {
         double result   = 0;
         for(Lamp lamp : listOfLamps) {
             result+=lamp.getLuminance();
         }
-        return   result+= nubmerOfWindows * Constants.ILLUMINANCE_OF_THE_WINDOW;
+        return   result+= numberOfWindows * Constants.ILLUMINANCE_OF_THE_WINDOW;
     }
 
     public boolean isIlluminanceCorrect() throws IlluminateTooLittleException, IlluminateTooMuchException {
@@ -101,56 +94,96 @@ public class Room  {
         } else return true;
     }
 
-    public boolean add(PlaceableRoomItem item) {
+    public boolean add(RoomsItems item) {
         if(item instanceof Lamp) {
             return  add((Lamp) item);
         } else  if (item instanceof Furniture) {
             return add((Furniture) item );
         } else {
-            System.out.println("Object did not add. This types of objects is not allowed.");
+            System.out.println("Object did not add. This type of object is not allowed.");
             return false;
         }
     }
 
-    public boolean add(Lamp lamp) throws IlluminateTooLittleException, IlluminateTooMuchException  {
-        if (!isIlluminanceCorrect()) {
+    private boolean add(Lamp lamp)  {
+        try {
+            isIlluminanceCorrect();
+        } catch (IllegalRoomException e) {
             validated = false;
+            System.out.println("Room" + title + "(ID " + id + "): Illuminance is too much");
+        } finally {
+            return listOfLamps.add(lamp);
         }
-        return listOfLamps.add(lamp);
     }
 
-    public boolean add(Furniture furniture) throws SpaceUsageTooMuchException {
-        if (!isUsageSpaceCorrect()) {
-
+    private boolean add(Furniture furniture) {
+        try {
+            isUsageSpaceCorrect();
+        } catch (SpaceUsageTooMuchException e) {
+            validated = false;
+            System.out.println("Room" + title + "(ID " + id + "): Space usage to much");
+        } finally {
+            return listOfFurniture.add(furniture);
         }
-        return listOfFurniture.add(furniture);
+    }
+
+    public boolean remove(RoomsItems item) {
+        if(item instanceof Lamp) {
+            return  listOfLamps.remove((Lamp) item);
+        } else  if (item instanceof Furniture) {
+            return listOfFurniture.remove((Furniture) item );
+        } else {
+            System.out.println("Object did not add. This type of objects is not allowed for adding into room.");
+            return false;
+        }
+    }
+
+    private boolean remove(Lamp lamp)  {
+        try {
+            isIlluminanceCorrect();
+        } catch (IllegalRoomException e) {
+            validated = false;
+            System.out.println("Room" + title + "(ID " + id + "): Illuminance is too little");
+        } finally {
+            return listOfLamps.remove(lamp);
+        }
+    }
+
+    private boolean remove(Furniture furniture) {
+         return listOfFurniture.add(furniture);
+    }
+
+    public double getUsageSpace() {
+        double sumAreas = 0;
+        for (Furniture furniture : listOfFurniture) {
+            sumAreas+=furniture.getArea();
+        }
+        return sumAreas;
     }
 
     public double getUsageSpaceChanged(){
         double sumChangedAreas = 0;
         for (Furniture furniture : listOfFurniture) {
-            if (furniture instanceof ChangeableArea) {
-                sumChangedAreas+=((ChangeableArea) furniture).getChangedArea();
+            if (furniture instanceof ChangeableUsageSpace) {
+                sumChangedAreas+=((ChangeableUsageSpace) furniture).getChangedArea();
             } else sumChangedAreas += furniture.getArea();
         }
         return sumChangedAreas;
     }
 
-    public double getUsageSpace() {
-            double sumAreas = 0;
-            for (Furniture furniture : listOfFurniture) {
-                sumAreas+=furniture.getArea();
-            }
-            return sumAreas;
-    }
-    public void validate() throws IllegalRoomException {
-        if(isIlluminanceCorrect() && isUsageSpaceCorrect() && area > 0) {
-            validated = true;
+    public void validate() throws SpaceUsageTooMuchException, IlluminateTooLittleException, IlluminateTooMuchException {
+        if(isIlluminanceCorrect() && isUsageSpaceCorrect()) {
+        validated = true;
+        System.out.println("validated ");
         }
     }
 
+    public void describe() {
+        System.out.println(getFullDescription());
+    }
+
     public String getFullDescription() {
-        StringBuilder result = new StringBuilder(this.toString());
+        StringBuilder result = new StringBuilder(this.toString() + "\n");
             result.append(Constants.TAB)
                     .append(Constants.TAB)
                     .append(getIlluminanceFullDescription() + "\n")
@@ -171,13 +204,9 @@ public class Room  {
         return result.toString();
     }
 
-    public void describe() {
-        System.out.println(getFullDescription());
-    }
-
     public String getIlluminanceFullDescription(){
-        StringBuilder sb = new StringBuilder ("Illuminance " + getIlluminance() + " (" +
-                nubmerOfWindows + " windows("+Constants.ILLUMINANCE_OF_THE_WINDOW +" lk)");
+        StringBuilder sb = new StringBuilder ("Illuminance " + getIlluminance() + " lk (" +
+                numberOfWindows + " windows("+Constants.ILLUMINANCE_OF_THE_WINDOW +" lk)");
         for (Lamp lamp: new TreeSet<Lamp>(listOfLamps)){
             sb.append(", " +Collections.frequency(listOfLamps, lamp) + " " +  lamp.toString());
         }
@@ -187,9 +216,12 @@ public class Room  {
 
     public String getAreaDescription(){
         StringBuilder sb = new StringBuilder();
-        sb.append("Area = " ).append(area).append(" м2 (usage space - ");
+        sb.append("Area = " ).append(area).append(" м2, ");
+        if(Math.max(getArea(),getUsageSpace()) > area ) {
+            return sb.append("the furniture does not fit in the room \n").toString();
+        }else  sb.append("usage space - ");
         if(getUsageSpace() == getUsageSpaceChanged()) {
-           sb.append(getUsageSpace()).append(" m2 or ").append(100*getUsageSpace()/area).append("%) \n");
+            sb.append(getUsageSpace()).append(" m2 or ").append(100*getUsageSpace()/area).append("%) \n");
         } else {
             double guaranteedAvailableSpace = area - Math.max(getUsageSpace(), getUsageSpaceChanged());
             sb.append("from ")
@@ -206,7 +238,7 @@ public class Room  {
 
     @Override
     public String toString() {
-        return (title+"\n");
+        return (title+ "(ID: " +id+")");
     }
 }
 

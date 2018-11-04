@@ -1,11 +1,11 @@
-package buildings.lamp;
+package buildings.rooms_items.lamp;
 
-import buildings.building.PlaceableRoomItem;
+import buildings.interfaces.RoomsItems;
 
 /**
  * Created by Raik Yauheni on 26.10.2018.
  */
-public class Lamp  implements Comparable <Lamp>, PlaceableRoomItem {
+public class Lamp  implements Comparable <Lamp>, RoomsItems {
     private int luminance;
 
     public Lamp(int luminance) {

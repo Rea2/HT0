@@ -93,7 +93,7 @@ public class Building {
             }
             validated = true;
         } catch (IllegalRoomException e) {
-           throw new IllegalBuildingException("Illegal room", e);
+           throw new IllegalBuildingException("Illegal room");
         }
     }
 

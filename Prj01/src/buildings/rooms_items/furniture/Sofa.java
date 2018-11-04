@@ -1,4 +1,4 @@
-package buildings.furniture;
+package buildings.rooms_items.furniture;
 
 
 

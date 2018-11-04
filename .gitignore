@@ -4,11 +4,6 @@
 # Log file
 *.log
 
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
 
 # Package Files #
 *.jar
@@ -31,7 +26,7 @@ gen/
 idea-gitignore.jar
 resources/templates.list
 resources/gitignore/*
-build/
+
 build.properties
 junit*.properties
 IgnoreLexer.java~

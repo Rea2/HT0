@@ -1,11 +1,11 @@
-package buildings.furniture;
+package buildings.rooms_items.furniture;
 
-import buildings.building.ChangeableArea;
+import buildings.interfaces.ChangeableUsageSpace;
 
 /**
  * Created by Raik Yauheni on 28.10.2018.
  */
-public abstract class UpholsteredFurniture extends Furniture implements ChangeableArea {
+public abstract class UpholsteredFurniture extends Furniture implements ChangeableUsageSpace {
     private double changedArea;
 
     public UpholsteredFurniture(String title, double area) {

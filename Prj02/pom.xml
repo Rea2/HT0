@@ -13,11 +13,6 @@
                 <artifactId>mp3agic</artifactId>
                 <version>0.9.1</version>
             </dependency>
-            <dependency>
-                <groupId>com.github.xmlet</groupId>
-                <artifactId>htmlflow</artifactId>
-                <version>2.1</version>
-            </dependency>
         </dependencies>
 
     <build>

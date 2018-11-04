@@ -1,12 +1,12 @@
-package buildings.furniture;
+package buildings.rooms_items.furniture;
 
 
-import buildings.building.PlaceableRoomItem;
+import buildings.interfaces.RoomsItems;
 
 /**
  * Created by Raik Yauheni on 26.10.2018.
  */
-public abstract class Furniture implements Comparable<Furniture>, PlaceableRoomItem {
+public abstract class Furniture implements Comparable<Furniture>, RoomsItems {
 
     private  int id;
     private static int countFurniture;
