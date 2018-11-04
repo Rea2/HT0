@@ -23,7 +23,7 @@ public class Mp3FileInfoToHtml {
         this.treeMap = treeMap;
     }
 
-    public void addMp3FilesInfoToTree (List<Mp3Info> listInfo){
+    public void addMp3InfosToTree(List<Mp3Info> listInfo){
         for (Mp3Info fileInfo : listInfo) {
             if ((! treeMap.containsKey(fileInfo.getArtist())) ||  (treeMap.isEmpty())) {
                 ArrayList<Mp3Info> songs = new ArrayList<>();

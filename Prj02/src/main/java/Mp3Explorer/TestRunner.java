@@ -19,7 +19,7 @@ public class TestRunner {
 //            System.out.println(info.getFullDescription());
 //        }
         Mp3FileInfoToHtml printerToHtml = new Mp3FileInfoToHtml();
-        printerToHtml.addMp3FilesInfoToTree(listMp3Info);
+        printerToHtml.addMp3InfosToTree(listMp3Info);
 
 
         PrintWriter pw = new PrintWriter("report.html");

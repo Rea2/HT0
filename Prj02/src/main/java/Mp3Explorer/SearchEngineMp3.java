@@ -14,8 +14,7 @@ public class SearchEngineMp3 {
     public static final String CAN_NOT_ADD_FILE_IN_THE_REPORT  = "The file will not add in HTML report";
     private List<File> mp3Files = new ArrayList<>();
     private List<File> badMp3Files = new ArrayList<>();
-    private List<Mp3Info> mp3Infos = new ArrayList<>();
-
+    private List<Mp3Info> listMp3FilesInfo = new ArrayList<>();
 
     public List<File> getMp3Files() {
         return mp3Files;
@@ -25,15 +24,15 @@ public class SearchEngineMp3 {
         return badMp3Files;
     }
 
-    public List<Mp3Info> getMp3Infos() {
-        return mp3Infos;
+    public List<Mp3Info> getListMp3FilesInfo() {
+        return listMp3FilesInfo;
     }
 
     public  List<Mp3Info> getListMp3Id3TagsInfo(String FolderPath)  {
         File folder = new File(FolderPath);
         mp3Files = getListMp3Files(folder);
-        mp3Infos =  getListOfMp3FileInfo(mp3Files);
-        return mp3Infos;
+        listMp3FilesInfo =  getListOfMp3FileInfo(mp3Files);
+        return listMp3FilesInfo;
     }
     public  List<File> getListMp3Files(File folder) {
         for (File fileEntry : folder.listFiles()) {
@@ -54,7 +53,7 @@ public class SearchEngineMp3 {
             try {
                 result.add(createMp3FileInfo(file) );
             } catch (InvalidDataException e) {
-                System.out.println(file.getName() + " has invalid format or is corrupted."+
+                System.out.println(file.getName() + " has invalid format or is corrupted. "+
                         CAN_NOT_ADD_FILE_IN_THE_REPORT);
                 badMp3Files.add(file);
             } catch (IOException e) {
