@@ -18,12 +18,11 @@ public class Mp3FileInfoToHtml {
     public Map<String, TreeMap<String, ArrayList<Mp3Info>>> getTreeMap() {
         return treeMap;
     }
-
     public void setTreeMap(Map<String, TreeMap<String, ArrayList<Mp3Info>>> treeMap) {
         this.treeMap = treeMap;
     }
 
-    public void addMp3InfosToTree(List<Mp3Info> listInfo){
+    public void addMp3InfoToTree(List<Mp3Info> listInfo){
         for (Mp3Info fileInfo : listInfo) {
             if ((! treeMap.containsKey(fileInfo.getArtist())) ||  (treeMap.isEmpty())) {
                 ArrayList<Mp3Info> songs = new ArrayList<>();

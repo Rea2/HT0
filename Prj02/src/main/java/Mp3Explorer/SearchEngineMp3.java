@@ -1,102 +1,140 @@
 package Mp3Explorer;
 
-import com.mpatric.mp3agic.*;
+import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.nio.file.Path;
+import java.util.*;
 
 /**
  * Created by Raik Yauheni on 30.10.2018.
  */
 public class SearchEngineMp3 {
-
-    public static final String CAN_NOT_ADD_FILE_IN_THE_REPORT  = "The file will not add in HTML report";
+    public static final String TAB = "   ";
     private List<File> mp3Files = new ArrayList<>();
-    private List<File> badMp3Files = new ArrayList<>();
-    private List<Mp3Info> listMp3FilesInfo = new ArrayList<>();
 
-    public List<File> getMp3Files() {
+    public List<File> getMp3Files(File exploringPath) {
         return mp3Files;
-    }
-
-    public List<File> getBadMp3Files() {
-        return badMp3Files;
-    }
-
-    public List<Mp3Info> getListMp3FilesInfo() {
-        return listMp3FilesInfo;
-    }
-
-    public  List<Mp3Info> getListMp3Id3TagsInfo(String FolderPath)  {
-        File folder = new File(FolderPath);
-        mp3Files = getListMp3Files(folder);
-        listMp3FilesInfo =  getListOfMp3FileInfo(mp3Files);
-        return listMp3FilesInfo;
     }
     public  List<File> getListMp3Files(File folder) {
         for (File fileEntry : folder.listFiles()) {
                 if (fileEntry.isDirectory()) {
                     getListMp3Files(fileEntry);
                 } else {
-                    if (fileEntry.getName().substring(fileEntry.getName().length()-4).equalsIgnoreCase(".mp3")) {
-                        mp3Files.add(fileEntry);
+                    if (fileEntry.getName().length() > 4) {
+                        if (fileEntry.getName().substring(fileEntry.getName().length() - 4).equalsIgnoreCase(".mp3")) {
+                            mp3Files.add(fileEntry);
+                        }
                     }
                 }
         }
         return mp3Files;
     }
 
-    public List<Mp3Info> getListOfMp3FileInfo(List<File> mp3Files)  {
-        List<Mp3Info> result = new ArrayList<>();
-        for(File file : mp3Files) {
+    public Map<Long, HashSet<Path>> getDuplicateFiles (Collection<File> listFiles) {
+        System.out.println("Finding duplicates file ...");
+        Map<Long, Path> mapTemp = new HashMap<>();
+        Map<Long, HashSet<Path>> mapDuplicates = new HashMap<>();
+        CRC32checker checkerSum = new CRC32checker();
+        Path path= null;
+        long crc = 0L;
+        for(File file : listFiles) {
             try {
-                result.add(createMp3FileInfo(file) );
-            } catch (InvalidDataException e) {
-                System.out.println(file.getName() + " has invalid format or is corrupted. "+
-                        CAN_NOT_ADD_FILE_IN_THE_REPORT);
-                badMp3Files.add(file);
+                crc = checkerSum.checkCRC32(file);
             } catch (IOException e) {
-                System.out.println("Could not read "+ file.getName() + CAN_NOT_ADD_FILE_IN_THE_REPORT);
-                badMp3Files.add(file);
-            } catch (UnsupportedTagException e) {
-                System.out.println(file.getName() + "Unknown ID3 tags type. The file will add to the report without tags");
-                badMp3Files.add(file);
+                System.out.println(CRC32checker.ERROR_READING_FILE_MESSAGE);
+            }
+            path =  mapTemp.put(crc,file.toPath());
+
+            if (path != null) {
+                if (!(mapDuplicates.containsKey(crc))){
+                    HashSet<Path> set = new HashSet<>();
+                    set.add(path);
+                    mapDuplicates.put(crc, set);
+                } else {
+                    mapDuplicates.get(crc).add(path);
+                }
+                path = null;
             }
         }
-        return result;
-    }
-
-    public Mp3Info createMp3FileInfo(File file) throws InvalidDataException, IOException, UnsupportedTagException {
-        Mp3File mp3file = new Mp3File(file);
-        Mp3Info fileInfo;
-        if (mp3file.hasId3v1Tag()) {
-            fileInfo =  createMp3FileInfoId3v1(mp3file);
-        } else if (mp3file.hasId3v2Tag()) {
-            fileInfo = createMp3FileInfoId3v2(mp3file);
-        } else {
-            fileInfo = new Mp3Info();
+        for(long lo : mapDuplicates.keySet()) {
+            if(mapTemp.containsKey(lo)) {
+                mapDuplicates.get(lo).add(mapTemp.get(lo));
+            }
         }
-        fileInfo.setDuration(mp3file.getLengthInSeconds());
-        fileInfo.setPath(file.toPath());
-        return fileInfo;
+        return mapDuplicates;
     }
 
-    private Mp3Info createMp3FileInfoId3v1(Mp3File mp3file)  {
-        Mp3Info mp3Info = new Mp3Info();
-        ID3v1 id3v1Tag = mp3file.getId3v1Tag();
-        mp3Info.setArtist(id3v1Tag.getArtist() );
-        mp3Info.setAlbum(id3v1Tag.getAlbum() );
-        mp3Info.setTitle(id3v1Tag.getTitle() );
-        return mp3Info;
+    public Map<Integer, ArrayList<Mp3Info>> getDuplicateTags (Collection<Mp3Info> listFiles) {
+        System.out.println("Finding duplicates ID3 tags ...");
+        Map<Integer, Mp3Info> mapTemp = new HashMap<>();
+        Map<Integer, ArrayList<Mp3Info>> mapDuplicates = new HashMap<>();
+        Mp3Info mp3Temp;
+        int hashTemp = 0;
+        for(Mp3Info mp3Info : listFiles) {
+               hashTemp = mp3Info.hashCode();
+               mp3Temp = mapTemp.put(hashTemp,  mp3Info);
+            if (mp3Temp != null) {
+                if (!(mapDuplicates.containsKey(hashTemp))){
+                    ArrayList<Mp3Info> list = new ArrayList<>();
+                    list.add(mp3Temp);
+                    mapDuplicates.put(hashTemp, list);
+                } else {
+                    mapDuplicates.get(hashTemp).add(mp3Temp);
+                }
+                mp3Temp = null;
+            }
+        }
+        for(int i : mapDuplicates.keySet()) {
+            if(mapTemp.containsKey(i)) {
+                mapDuplicates.get(i).add(mapTemp.get(i));
+            }
+        }
+        return mapDuplicates;
+}
+
+    public void printDuplicatesFiles(Map<Long, HashSet<Path>> mapDuplicates, Logger log){
+        int count1 = 0;
+        int count2 = 0;
+        for(Map.Entry<Long, HashSet<Path>>  entryMap : mapDuplicates.entrySet()) {
+            log.info("Duplicates " + (++count1) + " (CRC32: " +  entryMap.getKey() + ")") ;
+            count2 = 0;
+            for(Path path : entryMap.getValue()) {
+                log.info((++count2) + "." + path.toAbsolutePath().toString());
+            }
+            log.info(Runner.DELIMITER_STRINGS);
+
+        }
     }
 
-    private Mp3Info createMp3FileInfoId3v2 (Mp3File mp3file)  {
-        Mp3Info mp3Info = new Mp3Info();
-        ID3v2 id3v2Tag = mp3file.getId3v2Tag();
-        mp3Info.setArtist(id3v2Tag.getArtist() );
-        mp3Info.setAlbum(id3v2Tag.getAlbum() );
-        mp3Info.setTitle(id3v2Tag.getTitle() );
-        return mp3Info;
+    public void printDuplicatesTags (Map<Integer, ArrayList<Mp3Info>> mapDuplicates, Logger log){
+        int count1 = 0;
+        int count2 = 0;
+        log.info(Runner.DELIMITER_STRINGS);
+        log.info(Runner.DELIMITER_STRINGS);
+        log.info("Tags duplicates:");
+        log.info(Runner.DELIMITER_STRINGS);
+        for(Map.Entry <Integer, ArrayList<Mp3Info>>  entryMap : mapDuplicates.entrySet()) {
+            log.info(++count1  + ".Artsit - " + entryMap.getValue().get(0).getArtist() +
+                            "| Album - " + entryMap.getValue().get(0).getAlbum()+
+                            "| Song - " + entryMap.getValue().get(0).getTitle()+ " :");
+            count2 = 0;
+            for (Mp3Info mp3Info : entryMap.getValue()) {
+                log.info(TAB + (++count2) + "." + mp3Info.getPath().toAbsolutePath().toString());
+            }
+            log.info(Runner.DELIMITER_STRINGS);
+        }
     }
+
+
+
+
+
+
+
+
+
+
+
+
 }

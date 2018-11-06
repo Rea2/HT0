@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+  <Appenders>
+    <File name="File1" fileName="test/duplicates_CRC.log">
+      <PatternLayout>
+        <Pattern>%d %m %n</Pattern>
+      </PatternLayout>
+    </File>
+    <File name="File2" fileName="test/duplicates_TAG.log">
+      <PatternLayout>
+        <Pattern>%d %m %n</Pattern>
+      </PatternLayout>
+    </File>
+  </Appenders>
+  <Loggers>
+    <Root level="trace">
+      <AppenderRef ref="File1"/>
+    </Root>
+    <Logger name="TAG" level="info" additivity="false">
+      <AppenderRef ref="File2" level="INFO"/>
+    </Logger>
+  </Loggers>
+</Configuration>

@@ -5,6 +5,7 @@ package Mp3Explorer;
 
 import java.nio.charset.Charset;
 import java.nio.file.Path;
+import java.util.Objects;
 
 /**
  * Created by Raik Yauheni on 02.11.2018.
@@ -77,31 +78,39 @@ public class Mp3Info {
         return EMPTY_FIELD;
     }
 
-    public String getFullDescription() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Artist: ").append(artist).append("\n");
-        sb.append("Album : ").append(album).append("\n");
-        sb.append("Title: ").append(title).append("\n");
-        sb.append("Duration: ").append(durationToString()).append("\n");
-        sb.append("Destination: ").append(path.toString()).append("\n");
-
-        byte[] b = sb.toString().getBytes(Charset.defaultCharset());
-        return  new String(b,Charset.defaultCharset( ));
-    }
-
     public String getShortDescription() {
         StringBuilder sb = new StringBuilder();
         sb.append(title + " ");
         sb.append(durationToString());
-         return sb.toString();
+        return sb.toString();
     }
+
+    public String getDescription() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Artist: ").append(artist).append("\n");
+        sb.append("Album : ").append(album).append("\n");
+        sb.append("Title: ").append(title).append("\n");
+        return sb.toString();
+    }
+
+    public String getFullDescription() {
+        StringBuilder sb = new StringBuilder(getDescription());
+        sb.append("Duration: ").append(durationToString()).append("\n");
+        sb.append("Destination: ").append(path.toString()).append("\n");
+        return sb.toString();
+    }
+
+
 
     public String durationToString() {
         if (duration == -1) return "N/A";
-
         return  String.format ( "%02d : %02d", (duration / 60) , (duration % 60) );
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(artist,title,album);
+    }
 
 
 }
