@@ -11,7 +11,6 @@ import java.util.List;
  * @author Raik Yauheni
  */
 public class CreatorMp3Info {
-
     public static final String CAN_NOT_ADD_FILE_IN_THE_REPORT  = "The file will not add in HTML report";
     private List<File> mp3Files = new ArrayList<>();
     private List<File> badMp3Files = new ArrayList<>();
@@ -87,30 +86,4 @@ public class CreatorMp3Info {
         mp3Info.setTitle(id3v2Tag.getTitle());
         return mp3Info;
     }
-
-//
-//    private Mp3Info createMp3FileInfoId3v1(Mp3File mp3file)  {
-//        Mp3Info mp3Info = new Mp3Info();
-//        ID3v1 id3v1Tag = mp3file.getId3v1Tag();
-//        mp3Info.setArtist(checkEmptyString(id3v1Tag.getArtist()));
-//        mp3Info.setAlbum(checkEmptyString(id3v1Tag.getAlbum()));
-//        mp3Info.setTitle( checkEmptyString (id3v1Tag.getTitle()));
-//        return mp3Info;
-//    }
-//
-//    private Mp3Info createMp3FileInfoId3v2 (Mp3File mp3file)  {
-//        Mp3Info mp3Info = new Mp3Info();
-//        ID3v2 id3v2Tag = mp3file.getId3v2Tag();
-//        mp3Info.setArtist(checkEmptyString(id3v2Tag.getArtist()));
-//        mp3Info.setAlbum(checkEmptyString(id3v2Tag.getAlbum()));
-//        mp3Info.setTitle( checkEmptyString (id3v2Tag.getTitle()));
-//        return mp3Info;
-//    }
-//    private String checkEmptyString(String string) {
-//        if (string == null ) return  "N/A";
-//        if (string.trim() == "") return "N/A";
-//        else return string;
-//    }
-
-
 }

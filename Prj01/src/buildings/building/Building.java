@@ -3,7 +3,6 @@ package buildings.building;
 import buildings.exceptions.IllegalBuildingException;
 import buildings.exceptions.IllegalRoomException;
 import buildings.rooms.Room;
-import com.sun.org.apache.xpath.internal.SourceTree;
 
 import java.util.*;
 
@@ -15,7 +14,6 @@ public class Building {
     private boolean validated =false;
     private Map<Integer,Room> rooms = new HashMap<>();
     private Map<Integer,Room> invalidRooms = new HashMap<>();
-
 
     public Building(String title) {
         this.title = title;

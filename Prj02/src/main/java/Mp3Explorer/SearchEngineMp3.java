@@ -73,7 +73,6 @@ public class SearchEngineMp3 {
         Mp3Info mp3Temp;
         int hashTemp = 0;
         for(Mp3Info mp3Info : listFiles) {
-//        System.out.println(mp3Info.hashCode() +"\n" + mp3Info.getDescription());
                hashTemp = mp3Info.hashCode();
                mp3Temp = mapTemp.put(hashTemp,  mp3Info);// if mapTemp has entry with key hashTemp,
                                                          // it it will change value by a new one and return old value
@@ -97,7 +96,7 @@ public class SearchEngineMp3 {
     }
 
     public void printDuplicatesFiles(Map<Long, HashSet<Path>> mapDuplicates, Logger log){
-        int count1 = 0;
+        int count1 = 0;// counter of combinations for every CRC32
         int count2 = 0;
         for(Map.Entry<Long, HashSet<Path>>  entryMap : mapDuplicates.entrySet()) {
             log.info("Duplicates " + (++count1) + " (CRC32: " +  entryMap.getKey() + ")") ;

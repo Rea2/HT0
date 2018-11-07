@@ -1,4 +1,4 @@
-package buildings;
+package tests;
 
 /**
  * Created by Raik Yauheni on 27.10.2018.
@@ -23,9 +23,7 @@ public class TestClass {
     static Building building;
     public static void main(String[] args) {
         try {
-            System.out.println(WindowDefault.getInstance().getIlluminance());
             building = new Building("Building 1");
-
             rooms.add(new Room("Комната1", 4, 2));
             rooms.add(new Room("Комната3", 32, 3));
             rooms.add(new Room("Комната4", 6, 5));
@@ -33,7 +31,6 @@ public class TestClass {
             rooms.get(0).add(new Lamp(150));
             rooms.get(0).add(new Lamp(150));
             rooms.get(0).add(new Lamp(250));
-
             rooms.get(0).add(new Armchair("Armchair",1,2));
             rooms.get(0).add(new Sofa("Sofa",3,4));
             rooms.get(1).add(new Bed("Bed",2, BedTypes.SINGLE));
