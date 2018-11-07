@@ -44,6 +44,7 @@ public class TestClass {
             building.validate();
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("test");
         }
         new Building("townHouse").describe();
         new Room("Bedroom", 8,3).describe();

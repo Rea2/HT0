@@ -1,7 +1,6 @@
 package Mp3Explorer;
 
 import com.mpatric.mp3agic.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
