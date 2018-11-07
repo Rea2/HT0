@@ -1,7 +1,5 @@
 package buildings.exceptions;
 
-import buildings.room.Room;
-
 /**
  * Created by Raik Yauheni on 31.10.2018.
  */

@@ -1,23 +1,25 @@
 package buildings.rooms_items.window;
 
 
+import buildings.interfaces.RoomsItems;
 
 /**
  * Created by Raik Yauheni on 31.10.2018.
  */
-public class Window {
-    private double Illuminance;
+public class Window implements RoomsItems {
+    protected double illuminance;
 
-
+    public Window() {
+    }
     public Window(double illuminance) {
-        Illuminance = illuminance;
+        this.illuminance = illuminance;
     }
 
     public double getIlluminance() {
-        return Illuminance;
+        return illuminance;
     }
 
     public void setIlluminance(double illuminance) {
-        Illuminance = illuminance;
+        this.illuminance = illuminance;
     }
 }

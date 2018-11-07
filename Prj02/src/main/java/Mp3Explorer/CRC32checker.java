@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.zip.CRC32;
 
 /**
- * Created by Raik Yauheni on 04.11.2018.
+ * @author Raik Yauheni
  */
 
 public class CRC32checker {

@@ -4,7 +4,7 @@ package buildings.rooms_items.furniture;
  * Created by Raik Yauheni on 28.10.2018.
  */
 public class Bed extends Furniture {
-    private BedTypes type;
+    protected BedTypes type;
 
     public Bed(String title, double area) {
         super(title, area);

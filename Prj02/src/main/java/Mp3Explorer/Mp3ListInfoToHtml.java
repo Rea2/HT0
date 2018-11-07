@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Created by Raik Yauheni on 04.11.2018.
+ * @author Raik Yauheni
  */
 public class Mp3ListInfoToHtml {
 

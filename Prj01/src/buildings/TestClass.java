@@ -12,24 +12,23 @@ import buildings.rooms_items.furniture.Bed;
 import buildings.rooms_items.furniture.BedTypes;
 import buildings.rooms_items.furniture.Sofa;
 import buildings.rooms_items.lamp.Lamp;
-import buildings.room.Room;
+import buildings.rooms.Room;
+import buildings.rooms_items.window.WindowDefault;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class TestClass {
     static List<Room> rooms = new ArrayList<>();
-
+    static Building building;
     public static void main(String[] args) {
-
-
         try {
-            Building building = new Building("Building 1");
+            System.out.println(WindowDefault.getInstance().getIlluminance());
+            building = new Building("Building 1");
 
-
-            rooms.add(new Room("Комната1", 1, -5));
-            rooms.add(new Room("Комната2", 200, 2));
+            rooms.add(new Room("Комната1", 4, 2));
             rooms.add(new Room("Комната3", 32, 3));
-            rooms.add(new Room("Комната4", -200, 5));
+            rooms.add(new Room("Комната4", 6, 5));
 
             rooms.get(0).add(new Lamp(150));
             rooms.get(0).add(new Lamp(150));
@@ -44,18 +43,17 @@ public class TestClass {
             System.out.println(building.addAllRooms(rooms));
 
             building.describe();
-            building.getRoom(4).add(new Lamp(500));
+            building.getRoom(3).add(new Lamp(500));
             building.describe();
             System.out.println(building.isValidated());
-        } catch (IlluminateTooLittleException e) {
-            e.printStackTrace();
-        } catch (IlluminateTooMuchException e) {
-            e.printStackTrace();
-        } catch (SpaceUsageTooMuchException e) {
+            building.validate();
+        } catch (Exception e) {
             e.printStackTrace();
         }
+        new Building("townHouse").describe();
+        new Room("Bedroom", 8,3).describe();
 
-
+        System.out.println(building.getInvalidRooms());
     }
 
 

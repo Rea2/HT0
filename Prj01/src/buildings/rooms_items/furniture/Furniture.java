@@ -1,6 +1,5 @@
 package buildings.rooms_items.furniture;
 
-
 import buildings.interfaces.RoomsItems;
 
 /**
@@ -8,10 +7,10 @@ import buildings.interfaces.RoomsItems;
  */
 public abstract class Furniture implements Comparable<Furniture>, RoomsItems {
 
-    private  int id;
-    private static int countFurniture;
-    private double area;
-    private String title;
+    protected int id;
+    protected static int countFurniture =0;
+    protected double area;
+    protected String title;
 
     public Furniture(String title, double area) {
         id = ++countFurniture;
@@ -38,13 +37,10 @@ public abstract class Furniture implements Comparable<Furniture>, RoomsItems {
     public String getTitle() {
         return title;
     }
-
-
     @Override
     public int compareTo(Furniture furniture) {
         return this.title.compareTo(furniture.getTitle());
     }
-
     @Override
     public String toString() {
         return title + " (area " + area + " m2)";

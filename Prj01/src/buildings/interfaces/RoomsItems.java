@@ -1,7 +1,7 @@
 package buildings.interfaces;
 
 /**
- * Created by Raik Yauheni on 28.10.2018.
+ * Interface {@code RoomsItems} uses for ta classes are used for tagging classes which are allowed use item of a room.
  */
 public interface RoomsItems {
 }

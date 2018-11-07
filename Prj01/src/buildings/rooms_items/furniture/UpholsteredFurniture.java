@@ -23,7 +23,6 @@ public abstract class UpholsteredFurniture extends Furniture implements Changeab
     public void setChangedArea(double changedArea) {
         this.changedArea = changedArea;
     }
-
     @Override
     public String toString() {
             return this.getTitle() + " (area from " + this.getArea() + " m2 to " + this.getChangedArea() +" m2)";
