@@ -21,22 +21,24 @@ public class CRC32checker {
             try {
                 crc32 = checkCRC32(file);
             } catch (IOException e) {
-                System.out.println(ERROR_READING_FILE_MESSAGE);
+                System.out.println("File: " + file.getName() + ERROR_READING_FILE_MESSAGE);
                 continue;
             }
             map.put(file.toPath(), crc32);
         }
         return map;
     }
+
     public long checkCRC32(File file) throws IOException {
         InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
         CRC32 crc = new CRC32();
+        if(!file.isFile()) {
+            throw new FileNotFoundException();
+        }
         int cnt;
         while ((cnt = inputStream.read()) != -1) {
             crc.update(cnt);
         }
         return crc.getValue();
     }
-
-
 }

@@ -1,9 +1,5 @@
 package Mp3Explorer;
 
-
-
-
-import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.Objects;
 
@@ -100,8 +96,6 @@ public class Mp3Info {
         return sb.toString();
     }
 
-
-
     public String durationToString() {
         if (duration == -1) return "N/A";
         return  String.format ( "%02d : %02d", (duration / 60) , (duration % 60) );
@@ -109,10 +103,17 @@ public class Mp3Info {
 
     @Override
     public int hashCode() {
-        return Objects.hash(artist,title,album);
+         return Objects.hashCode(artist) + (7 * Objects.hashCode(title)) + (9 * Objects.hashCode(album));
     }
+    @Override
+    public boolean equals(Object obj) {
+        if (super.equals(obj)) return true;
+        if (obj == null) return true;
+        if (getClass()!=obj.getClass()) return false;
+        Mp3Info mp3Info = (Mp3Info) obj;
+        return (title == mp3Info.getTitle()) || (artist == mp3Info.getArtist()) || (album == mp3Info.getAlbum());
 
-
+    }
 }
 
 
