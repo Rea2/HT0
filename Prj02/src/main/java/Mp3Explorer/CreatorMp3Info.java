@@ -42,19 +42,21 @@ public class CreatorMp3Info {
                         CAN_NOT_ADD_FILE_IN_THE_REPORT);
                 badMp3Files.add(file);
             } catch (IOException e) {
-                System.out.println("Could not read "+ file.getName() + CAN_NOT_ADD_FILE_IN_THE_REPORT);
+                System.out.println("Could not read \""+ file.getName()+ "\" " + CAN_NOT_ADD_FILE_IN_THE_REPORT);
                 badMp3Files.add(file);
             } catch (UnsupportedTagException e) {
-                System.out.println(file.getName() + "Unknown ID3 tags type. The file will add to the report without tags");
+                System.out.println("\""+file.getName() + "\" Unknown ID3 tags type. The file will add to the report without tags");
                 badMp3Files.add(file);
-            }           if (mp3Info!= null) {
+            }  catch (Exception e) {
+                System.out.println("Unknown error during reading \"" +   file.getName() + "\" " + CAN_NOT_ADD_FILE_IN_THE_REPORT );
+            }  if (mp3Info!= null) {
               result.add(mp3Info);
            }
         }
         return result;
     }
 
-    public Mp3Info createMp3FileInfo(File file) throws InvalidDataException, IOException, UnsupportedTagException {
+    public Mp3Info createMp3FileInfo(File file) throws InvalidDataException, IOException, UnsupportedTagException, IllegalArgumentException {
         Mp3File mp3file = new Mp3File(file);
         Mp3Info fileInfo;
         if (mp3file.hasId3v1Tag()) {

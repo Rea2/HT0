@@ -41,9 +41,7 @@ public class Mp3FileInfoToHtml {
     }
 
     public String genereateHtmlReport(PrintWriter printWriter){
-
         StringBuilder sb = new StringBuilder();
-
         for(Map.Entry <String, TreeMap<String, ArrayList <Mp3Info>>> entry1 : treeMap.entrySet() ) {
             sb.append("<tr><h1>Author: ").append(entry1.getKey()).append("</h1>");
             for(Map.Entry<String, ArrayList<Mp3Info>> entry2: entry1.getValue().entrySet()){
@@ -51,6 +49,7 @@ public class Mp3FileInfoToHtml {
                 sb.append("<table border=\"1\" style=\"width:100%\">");
                 sb.append("<tr><td><h3>Track name</h3></td>\n<td width = 200><h3>Track length, mm : ss </h3>" +
                         "</td>\n<td width = 200><h3>Link</h3></td>\n</tr>");
+
                 for(Mp3Info mp3Info : entry2.getValue()){
                     sb.append("<tr><td>").append(mp3Info.getTitle()).append("</td>\n<td>")
                             .append(mp3Info.durationToString()).append("</td>\n<td><a href=\"")
