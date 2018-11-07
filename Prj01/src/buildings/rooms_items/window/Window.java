@@ -1,6 +1,5 @@
 package buildings.rooms_items.window;
 
-
 import buildings.interfaces.RoomsItems;
 
 /**

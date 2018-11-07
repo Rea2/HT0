@@ -13,8 +13,6 @@ import buildings.rooms_items.furniture.BedTypes;
 import buildings.rooms_items.furniture.Sofa;
 import buildings.rooms_items.lamp.Lamp;
 import buildings.rooms.Room;
-import buildings.rooms_items.window.WindowDefault;
-
 import java.util.ArrayList;
 import java.util.List;
 

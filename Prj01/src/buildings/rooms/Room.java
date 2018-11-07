@@ -8,7 +8,6 @@ import buildings.interfaces.ChangeableUsageSpace;
 import buildings.rooms_items.furniture.Furniture;
 import buildings.rooms_items.window.Window;
 import buildings.rooms_items.window.WindowDefault;
-
 import java.util.*;
 
 /**
@@ -23,9 +22,6 @@ public class Room  {
     private final List<Furniture> furnitures = new ArrayList<>();
     private final List<Lamp> lamps =  new ArrayList<>();
     private final List<Window> windows =  new ArrayList<>();
-
-
-
     /** Constructors*/
     public Room(String title, double area, int numberOfDefaultWindows) throws IllegalArgumentException {
         if (title.length() < 2) throw new IllegalArgumentException("Rooms did not created. Rooms title has to consist at least two characters ");
@@ -41,7 +37,6 @@ public class Room  {
         }
         this.title = title;
     }
-
     /** Getters and Setters */
     public int getId() {
         return id;
@@ -71,7 +66,7 @@ public class Room  {
         return lamps;
     }
 
-       /** Methods */
+    /** Methods */
     public double getIlluminance() {
         double result = 0;
         for(Lamp lamp : lamps) {

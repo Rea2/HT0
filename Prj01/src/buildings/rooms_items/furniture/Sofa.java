@@ -1,7 +1,4 @@
 package buildings.rooms_items.furniture;
-
-
-
 /**
  * Created by Raik Yauheni on 28.10.2018.
  */
