@@ -7,6 +7,7 @@ package buildings.exceptions;
 public class IlluminateTooMuchException extends IllegalRoomException {
     public IlluminateTooMuchException() {
     }
+
     public IlluminateTooMuchException(String s) {
         super(s);
     }
